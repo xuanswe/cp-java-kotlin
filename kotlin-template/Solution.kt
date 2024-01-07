@@ -13,13 +13,27 @@ fun solve() {
     // then printing result to output stream
     println(nextLine.replace("input", "output"))
 
-    // Reading a collection and printing directly to PrintStream
-    nexts<List<Int>, _>().joinTo(this, ";")
+    // Reading an array and printing directly to PrintStream
+    IntArray(3) { next() }.joinTo(this, ";")
     println()
 
-    // Reading an array and printing directly to PrintStream
-    nexts<IntArray>(3).joinTo(this, ";")
+    // Reading a collection with a known size
+    List<Int>(3) { next() }.joinTo(this, ";")
     println()
+
+    // Reading a collection with unknown size.
+    // The first word could lie on another line
+    // if the current line has only spaces unprocessed.
+    // Terminating at the first EOL after the first word,
+    // or when the `limit` is reached.
+    nextSequence<Int>(2).toList().joinTo(this, ";")
+    println()
+    nextSequence<Int>(10).toList().joinTo(this, ";")
+    println()
+
+    // Same as previously, but without considering `limit`.
+    // Terminating only at the first EOL after the first word.
+    nextSequence<Int>().toList().joinTo(this, ";", postfix = "\n")
 
     // PrintStream supports formatting output directly
     // Commonly use to format simple decimal number
@@ -118,84 +132,9 @@ inline fun <reified T> String.to() = when (val type = T::class) {
 } as T
 
 inline fun <reified T> nextOrNull() = if (hasNextWord) next<T>() else null
-
 inline fun <reified T> next(): T = nextWord.to()
-
 inline fun <reified T> nextSequence(limit: Int = 0) =
   nextSequenceOfWords(limit).map { it.to<T>() }
-
-typealias OnEach<T> = (index: Int, value: T) -> Unit
-
-inline fun <reified T : Collection<E>, reified E> nexts(
-  limit: Int = 0,
-  noinline onEach: OnEach<E>? = null
-): T {
-  val sequence = nextSequence<E>(limit).onEachIndexed { index, value ->
-    onEach?.invoke(index, value)
-  }
-  return when (val typeT = T::class) {
-    MutableList::class, List::class -> sequence.toMutableList()
-    MutableSet::class, Set::class -> sequence.toMutableSet()
-
-    else -> throw UnsupportedOperationException("$typeT is unsupported")
-  } as T
-}
-
-inline fun <reified T> nexts(size: Int) = when (val type = T::class) {
-  Array<String>::class -> with(nextSequence<String>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  ByteArray::class -> with(nextSequence<Byte>(size).iterator()) {
-    ByteArray(size) { next() }
-  }
-
-  Array<Byte>::class -> with(nextSequence<Byte>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  ShortArray::class -> with(nextSequence<Short>(size).iterator()) {
-    ShortArray(size) { next() }
-  }
-
-  Array<Short>::class -> with(nextSequence<Short>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  IntArray::class -> with(nextSequence<Int>(size).iterator()) {
-    IntArray(size) { next() }
-  }
-
-  Array<Int>::class -> with(nextSequence<Int>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  LongArray::class -> with(nextSequence<Long>(size).iterator()) {
-    LongArray(size) { next() }
-  }
-
-  Array<Long>::class -> with(nextSequence<Long>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  FloatArray::class -> with(nextSequence<Float>(size).iterator()) {
-    FloatArray(size) { next() }
-  }
-
-  Array<Float>::class -> with(nextSequence<Float>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  DoubleArray::class -> with(nextSequence<Double>(size).iterator()) {
-    DoubleArray(size) { next() }
-  }
-
-  Array<Double>::class -> with(nextSequence<Double>(size).iterator()) {
-    Array(size) { next() }
-  }
-
-  else -> throw UnsupportedOperationException("$type is unsupported")
-} as T
 
 // endregion
 
