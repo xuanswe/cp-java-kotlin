@@ -13,9 +13,12 @@ fun solve() {
     // then printing result to output stream
     println(nextLine.replace("input", "output"))
 
-    // Joining a collection and printing directly to PrintStream
-    val nums = nexts<List<Int>, _>()
-    nums.joinTo(this, ";")
+    // Reading a collection and printing directly to PrintStream
+    nexts<List<Int>, _>().joinTo(this, ";")
+    println()
+
+    // Reading an array and printing directly to PrintStream
+    nexts<IntArray>(3).joinTo(this, ";")
     println()
 
     // PrintStream supports formatting output directly
@@ -27,6 +30,10 @@ fun solve() {
     logger?.println("logging")
   }
 }
+
+/******************************************************************************/
+
+// region Competitive Programming Template
 
 // region Input/Output
 
@@ -95,8 +102,6 @@ fun nextLineOrNull(trim: Boolean = true) =
 
 // region Next <T>s
 
-typealias OnEach<T> = (index: Int, value: T) -> Unit
-
 inline fun <reified T> String.to() = when (val type = T::class) {
   String::class -> this
   Byte::class -> toByte()
@@ -119,6 +124,8 @@ inline fun <reified T> next(): T = nextWord.to()
 inline fun <reified T> nextSequence(limit: Int = 0) =
   nextSequenceOfWords(limit).map { it.to<T>() }
 
+typealias OnEach<T> = (index: Int, value: T) -> Unit
+
 inline fun <reified T : Collection<E>, reified E> nexts(
   limit: Int = 0,
   noinline onEach: OnEach<E>? = null
@@ -134,30 +141,62 @@ inline fun <reified T : Collection<E>, reified E> nexts(
   } as T
 }
 
-inline fun <reified T> nextArray(
-  size: Int,
-  noinline onEach: OnEach<Any>? = null
-): T {
-  val iterator = nextSequence<Any>(size).onEachIndexed { index, value ->
-    onEach?.invoke(index, value)
-  }.iterator()
+inline fun <reified T> nexts(size: Int) = when (val type = T::class) {
+  Array<String>::class -> with(nextSequence<String>(size).iterator()) {
+    Array(size) { next() }
+  }
 
-  return when (val type = T::class) {
-    Array<String>::class -> Array(size) { iterator.next() }
-    ByteArray::class -> ByteArray(size) { iterator.next() as Byte }
-    Array<Byte>::class -> Array(size) { iterator.next() }
-    ShortArray::class -> ShortArray(size) { iterator.next() as Short }
-    Array<Short>::class -> Array(size) { iterator.next() }
-    IntArray::class -> IntArray(size) { iterator.next() as Int }
-    Array<Int>::class -> Array(size) { iterator.next() }
-    LongArray::class -> LongArray(size) { iterator.next() as Long }
-    Array<Long>::class -> Array(size) { iterator.next() }
-    FloatArray::class -> FloatArray(size) { iterator.next() as Float }
-    Array<Float>::class -> Array(size) { iterator.next() }
-    DoubleArray::class -> DoubleArray(size) { iterator.next() as Double }
-    Array<Double>::class -> Array(size) { iterator.next() }
-    else -> throw UnsupportedOperationException("$type is unsupported")
-  } as T
-}
+  ByteArray::class -> with(nextSequence<Byte>(size).iterator()) {
+    ByteArray(size) { next() }
+  }
+
+  Array<Byte>::class -> with(nextSequence<Byte>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  ShortArray::class -> with(nextSequence<Short>(size).iterator()) {
+    ShortArray(size) { next() }
+  }
+
+  Array<Short>::class -> with(nextSequence<Short>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  IntArray::class -> with(nextSequence<Int>(size).iterator()) {
+    IntArray(size) { next() }
+  }
+
+  Array<Int>::class -> with(nextSequence<Int>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  LongArray::class -> with(nextSequence<Long>(size).iterator()) {
+    LongArray(size) { next() }
+  }
+
+  Array<Long>::class -> with(nextSequence<Long>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  FloatArray::class -> with(nextSequence<Float>(size).iterator()) {
+    FloatArray(size) { next() }
+  }
+
+  Array<Float>::class -> with(nextSequence<Float>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  DoubleArray::class -> with(nextSequence<Double>(size).iterator()) {
+    DoubleArray(size) { next() }
+  }
+
+  Array<Double>::class -> with(nextSequence<Double>(size).iterator()) {
+    Array(size) { next() }
+  }
+
+  else -> throw UnsupportedOperationException("$type is unsupported")
+} as T
+
+// endregion
 
 // endregion
