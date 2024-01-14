@@ -1,9 +1,11 @@
-@file:Suppress("unused", "UnusedReceiverParameter")
+@file:Suppress("unused")
+@file:OptIn(ExperimentalUnsignedTypes::class)
 
 import java.io.*
 import java.util.*
 
-fun main() = solve()
+@Suppress("unused_parameter")
+fun main(args: Array<String>) = solve()
 
 fun solve() {
   with(output) {
@@ -23,7 +25,7 @@ fun solve() {
     // Read the next line, split into a sequence of words,
     // and convert to a specific data type.
     // Then convert the sequence to a collection.
-    nextSequence<Int>().toList().joinTo(this, ";", postfix = "\n")
+    nexts<Int>().toList().joinTo(this, ";", postfix = "\n")
 
     // PrintStream supports formatting output directly
     // Commonly use to format simple decimal number
@@ -35,9 +37,7 @@ fun solve() {
   }
 }
 
-/******************************************************************************/
-
-// region Competitive Programming Template
+/********************** Competitive Programming Template **********************/
 
 // region Input/Output
 
@@ -54,7 +54,7 @@ private fun lines() = input.bufferedReader(Charsets.ISO_8859_1)
 fun reset(
   inStream: InputStream = System.`in`,
   outStream: OutputStream = System.out,
-  loggerStream: PrintStream? = null,
+  loggerStream: PrintStream? = null
 ) {
   input = inStream
   output = outStream as? PrintStream ?: PrintStream(outStream, true)
@@ -114,7 +114,7 @@ inline fun <reified T> String.to() = when (val type = T::class) {
 
 inline fun <reified T> nextOrNull() = if (hasNextWord) next<T>() else null
 inline fun <reified T> next(): T = nextWord.to()
-inline fun <reified T> nextSequence() = sequence<T> {
+inline fun <reified T> nexts() = sequence<T> {
   if (hasNextWord) yield(nextWord.to())
   while (currentLineHasNextWord) yield(nextWord.to())
 }

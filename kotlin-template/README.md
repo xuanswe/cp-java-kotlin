@@ -25,6 +25,22 @@ use words or lines tokens and convert as you will.
 
 # Output
 
-* Print directly to `PrintStream` is faster than having intermediate `String` or `StringBuilder`
-* If printing directly to `PrintStream` is not easy,
-  consider that `StringBuilder` is faster than concatenating `String`s
+Solutions to output multiple strings.
+Listed from the best performance on top to the least performance.
+
+* Print directly to `PrintStream`
+* Appending to a `StringBuilder`
+* Concatenating `String`s
+
+# Compatibility
+
+* Some platforms, like beecrowd/urionlinejudge, require to keep `args` in the `main` method.
+
+```kotlin
+@Suppress("unused_parameter")
+fun main(args: Array<String>) {
+}
+```
+
+* [Trailing comma](https://kotlinlang.org/docs/whatsnew14.html#trailing-comma)
+  is supported only since Kotlin 1.4
