@@ -1,7 +1,7 @@
 # cp-java-kotlin - Code template to use in Competitive Programming
 
-Embark on your Competitive Programming journey with this code template.
+Code template to use in Competitive Programming.
 
-Feel empowered to fork it and mold it into your personalized starting point.
+Feel free to fork and use it as the starting point for your own template.
 
-Dive in and enjoy the thrill of Competitive Programming!
+Have fun!
